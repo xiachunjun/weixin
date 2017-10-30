@@ -7,3 +7,5 @@ server:
 spring:
   application:
     name: gongzhonghao
+weixin: 
+  token: practice

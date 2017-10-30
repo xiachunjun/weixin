@@ -6,10 +6,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yoo.wxcloud.utill.SHA1;
+
 
 @RestController
 public class IndexController {
+
 	private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
+
+	@Value("${weixin.token}")
+	private String token;
+
 	@Value("${server.port}")
 	private String port;
 
@@ -35,6 +42,10 @@ public class IndexController {
 			String chkSignature = SHA1.getSHA1(token, timestamp, nonce);
 			if (chkSignature.equals(signature)) {
 				resStr = echostr;
+			}else{
+				logger.info("IndexController.wx[signature]==" + signature);
+				logger.info("IndexController.wx[chkSignature]==" + chkSignature);
+				resStr="签名校验不符";
 			}
 
 		} catch (Exception e) {
